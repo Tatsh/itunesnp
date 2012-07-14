@@ -1,0 +1,16 @@
+tell application "System Events"
+        if exists process "iTunes" then
+                tell application "iTunes"
+                        set theCurrentState to player state
+                        if theCurrentState is paused then
+                                "Now Playing: Nothing, iTunes is currently paused."
+                        else if theCurrentState is stopped then
+                                "Now Playing: Nothing, iTunes is currently stopped."
+                        else
+                                "Now Playing: " & artist of current track & " - " & name of current track
+                        end if
+                end tell
+        else
+                "Now Playing: Nothing, iTunes is not open."
+        end if
+end tell
