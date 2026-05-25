@@ -9,6 +9,17 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+
+- `itunesnp` now writes its output directly to standard output via `printf`, emitting only the
+  `Now Playing: <artist> - <track>` line when a track is playing.
+
+### Removed
+
+- The `Now Playing: Nothing, …` placeholder messages for the not-running, paused, and stopped
+  states. The command now stays silent and exits successfully in those states, so it can be wired
+  unconditionally into IRC `/np` shell-out hooks without producing noise when nothing is playing.
+
 ## [0.0.1] - 2026-05-25
 
 ### Added

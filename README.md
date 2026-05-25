@@ -51,10 +51,10 @@ Sample output:
 
 ```text
 Now Playing: Daft Punk - Around the World
-Now Playing: Nothing, Music is currently paused.
-Now Playing: Nothing, Music is currently stopped.
-Now Playing: Nothing, Music is not open.
 ```
+
+Nothing is printed when Music is not running, paused, or stopped. The command still exits
+successfully so it can be used unconditionally in shell-out hooks.
 
 ### IRC clients
 

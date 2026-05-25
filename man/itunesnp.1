@@ -9,10 +9,8 @@ queries the macOS Music application (formerly iTunes) via JXA and prints a singl
 .B "Now Playing: <artist> - <track>"
 format on standard output.
 .PP
-If the application is not running it prints
-.RB \(lq "Now Playing: Nothing, Music is not open." \(rq.
-If Music is running but is paused or stopped, a similarly worded message is printed instead of
-track metadata.
+If Music is not running, or is running but paused or stopped, nothing is printed and the command
+exits successfully.
 .SH OPTIONS
 This utility does not accept any command-line options.
 .SH EXAMPLES
@@ -51,7 +49,8 @@ chmod +x \(dq$HOME/Library/Application Support/Quassel/scripts/mpris\(dq
 .SH EXIT STATUS
 .TP
 0
-The "Now Playing" line was printed successfully (Music may or may not be playing).
+The command completed successfully (a track was printed, or Music was not running, paused, or
+stopped).
 .TP
 non-zero
 The JXA runtime or a Music.app interaction failed unexpectedly.

@@ -1,4 +1,7 @@
 #!/usr/bin/env -S osascript -l JavaScript
-import main from './main';
-console.log(main());
+import getNowPlaying from './main';
+const message = getNowPlaying();
+if (message) {
+  $.printf('%s', message);
+}
 $.exit(0);
