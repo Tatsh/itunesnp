@@ -24,6 +24,11 @@ local utils = import 'utils.libjsonnet';
     main: 'dist/index.js',
   },
   eslint+: [{ rules: { '@typescript-eslint/no-unused-expressions': 'off' } }],
+  pre_commit_config+: {
+    ci+: {
+      skip: std.sort(super.skip + ['fix-eslint']),
+    },
+  },
   github+: {
     workflows+: {
       publish_npm_any+: {
