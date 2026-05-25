@@ -1,0 +1,112 @@
+jobs:
+  check:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - uses: 'actions/checkout@v6.0.2'
+      - env:
+          COMMIT_SHA: '${{ github.sha }}'
+          GH_TOKEN: '${{ github.token }}'
+        id: 'check'
+        name: 'Wait for workflows'
+        run: |
+          sha="$COMMIT_SHA"
+          required_workflows=('Upload dist')
+          optional_workflows=('Prettier' 'QA' 'Spelling' 'Tests' 'markdownlint')
+          process_workflow() {
+            local workflow="$1" treat_missing="$2"
+            local run status conclusion
+            run=$(gh run list --workflow "$workflow" --commit "$sha" --json status,conclusion --jq '.[0]') || run=''
+            if [[ -z "$run" || "$run" == 'null' ]]; then
+              if [[ "$treat_missing" == 'pending' ]]; then
+                echo "Required workflow '$workflow' has not registered a run yet; waiting."
+                return 2
+              fi
+              echo "Optional workflow '$workflow' did not run for this commit; skipping."
+              return 0
+            fi
+            status=$(echo "$run" | jq -r '.status') || status=''
+            conclusion=$(echo "$run" | jq -r '.conclusion') || conclusion=''
+            case "$conclusion" in
+              failure|cancelled|timed_out|startup_failure|action_required)
+                echo "::error::Workflow '$workflow' ${conclusion}."
+                return 1
+                ;;
+              success|skipped|neutral)
+                return 0
+                ;;
+              *)
+                if [[ "$status" == 'completed' ]]; then
+                  echo "::error::Workflow '$workflow' completed with unexpected conclusion '${conclusion}'."
+                  return 1
+                fi
+                echo "Workflow '$workflow' still pending (status=${status})."
+                return 2
+                ;;
+            esac
+          }
+          for i in $(seq 1 30); do
+            all_done=true
+            for workflow in "${required_workflows[@]}"; do
+              rc=0
+              process_workflow "$workflow" pending || rc=$?
+              [[ $rc -eq 1 ]] && exit 1
+              [[ $rc -eq 2 ]] && all_done=false
+            done
+            for workflow in "${optional_workflows[@]}"; do
+              rc=0
+              process_workflow "$workflow" skip || rc=$?
+              [[ $rc -eq 1 ]] && exit 1
+              [[ $rc -eq 2 ]] && all_done=false
+            done
+            if [[ "$all_done" == 'true' ]]; then
+              echo 'All required workflows succeeded.'
+              exit 0
+            fi
+            echo "Waiting 60s for workflows to complete (attempt ${i}/30)..."
+            sleep 60
+          done
+          echo '::error::Timed out waiting for workflows.'
+          exit 1
+  publish:
+    needs:
+      - 'check'
+    permissions:
+      contents: 'write'
+      id-token: 'write'
+      packages: 'write'
+    runs-on: 'ubuntu-latest'
+    steps:
+      - uses: 'actions/checkout@v6.0.2'
+      - name: 'Setup Node.js'
+        uses: 'actions/setup-node@v6.4.0'
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org/'
+      - name: 'Update npm'
+        run: 'npm install --global npm@latest'
+      - name: 'Yarn cache'
+        uses: 'actions/cache@v5.0.5'
+        with:
+          key: "${{ runner.os }}-yarn-${{ hashFiles('yarn.lock', '.yarnrc.yml') }}"
+          path: '~/.yarn/berry'
+          restore-keys: '${{ runner.os }}-yarn'
+      - name: 'Install dependencies'
+        run: 'yarn'
+      - name: 'Build'
+        run: 'yarn webpack'
+      - env:
+          NODE_AUTH_TOKEN: '${{ secrets.NODE_AUTH_TOKEN || secrets.GITHUB_TOKEN }}'
+        name: 'Publish to NPM'
+        run: 'yarn npm publish'
+      - uses: 'softprops/action-gh-release@v3.0.0'
+        with:
+          draft: true
+name: 'Publish'
+'on':
+  push:
+    tags:
+      - 'v*'
+permissions:
+  contents: 'write'
+  id-token: 'write'
+  packages: 'write'

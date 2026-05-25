@@ -1,28 +1,82 @@
-# How to use?
+# itunesnp
 
-```bash
-git clone git://github.com/Tatsh/itunesnp.git
-cd itunesnp
-osacompile -o itunesnp.scpt itunesnp.scpt.src
+[![NPM Version](https://img.shields.io/npm/v/itunesnp)](https://www.npmjs.com/package/itunesnp)
+[![GitHub tag (with filter)](https://img.shields.io/github/v/tag/Tatsh/itunesnp)](https://github.com/Tatsh/itunesnp/tags)
+[![License](https://img.shields.io/github/license/Tatsh/itunesnp)](https://github.com/Tatsh/itunesnp/blob/master/LICENSE.txt)
+[![QA](https://github.com/Tatsh/itunesnp/actions/workflows/qa.yml/badge.svg)](https://github.com/Tatsh/itunesnp/actions/workflows/qa.yml)
+[![Tests](https://github.com/Tatsh/itunesnp/actions/workflows/tests.yml/badge.svg)](https://github.com/Tatsh/itunesnp/actions/workflows/tests.yml)
+[![TypeScript](https://img.shields.io/badge/TypeScript-black?logo=typescript)](https://www.typescriptlang.org/)
+[![Yarn](https://img.shields.io/badge/Yarn-4c335c?logo=yarn)](https://yarnpkg.com/)
+
+Print the currently playing Music.app track in `Now Playing: <artist> - <track>` format. Handy for
+IRC `/np` commands.
+
+## Installation
+
+Install globally and run `itunesnp`.
+
+```shell
+yarn global add itunesnp
+# or
+npm install --global itunesnp
 ```
 
-## In the command line
-```bash
-osascript /Users/myname/whereTheFileIs/itunesnp.scpt
+## Usage
+
+```shell
+itunesnp
 ```
 
-## X-Chat Aqua 
-I used it with X-Chat Aqua to display what I'm playing.
+Sample output:
 
-You can add a user command manually with the menus, specifying `exec -o osascript /Users/myname/whereTheFileIs/itunesnp.scpt` as the command to run.
-
-Or you can quit X-Chat, modify `~/.xchat2/commands.conf` and add the following lines:
-
+```text
+Now Playing: Daft Punk - Around the World
+Now Playing: Nothing, Music is currently paused.
+Now Playing: Nothing, Music is currently stopped.
+Now Playing: Nothing, Music is not open.
 ```
+
+### IRC clients
+
+For IRC clients that support shelling out, point the `/np` (or similar) command at `itunesnp`. As
+an example, for X-Chat Aqua you can either add a user command from the menu or edit
+`~/.xchat2/commands.conf`:
+
+```text
 NAME NP
-CMD exec -o osascript /Users/myname/whereTheFileIs/itunesnp.scpt
+CMD exec -o itunesnp
 ```
 
-You can change `NP` to whatever you like such as `MUSIC`. It should be upper-case.
+Then restart the client and type `/np`. The command name can be anything (upper-case).
 
-Then restart X-Chat (if necessary) and type `/np` (or whatever command name you chose).
+### Quassel
+
+Quassel invokes scripts in `~/Library/Application Support/Quassel/scripts/` via its `/exec`
+command. The Linux build ships an `mpris` script there, so installing `itunesnp` under that name
+lets a single client-side alias work on both Linux and macOS.
+
+```shell
+mkdir -p "$HOME/Library/Application Support/Quassel/scripts"
+cp "$(yarn global bin)/itunesnp" \
+    "$HOME/Library/Application Support/Quassel/scripts/mpris"
+chmod +x "$HOME/Library/Application Support/Quassel/scripts/mpris"
+```
+
+In **Preferences → Aliases**, add an alias named `np` (or any name you like) that expands to
+`/exec mpris`. Arguments after `mpris` are ignored. Type `/np` in a chat and the metadata is
+broadcast publicly. This replaces the older
+[quassel-itunes-np](https://github.com/Tatsh/quassel-itunes-np) CoffeeScript shim.
+
+![Quassel Aliases preferences pane showing an np entry that expands to /exec mpris.](https://user-images.githubusercontent.com/724848/34349081-f3bb89b2-e9dc-11e7-8847-403f7d4b009d.png)
+
+## Development
+
+```shell
+yarn               # install dependencies.
+yarn test          # run vitest with coverage.
+yarn webpack       # bundle src/index.ts to dist/index.js.
+yarn qa            # lint, spell-check, and prettier check.
+```
+
+The CLI is written in TypeScript and bundled with webpack. JXA global types come from
+[`jxa-types`](https://www.npmjs.com/package/jxa-types).

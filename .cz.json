@@ -1,0 +1,16 @@
+{
+  "commitizen": {
+    "name": "cz_path",
+    "remove_path_prefixes": ["include", "src"],
+    "tag_format": "v$version",
+    "version_files": [
+      ".wiswa.jsonnet",
+      "CITATION.cff",
+      "README.md",
+      "man/itunesnp.1",
+      "package.json"
+    ],
+    "version_provider": "npm",
+    "version_scheme": "semver"
+  }
+}

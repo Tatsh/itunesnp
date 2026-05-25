@@ -1,0 +1,68 @@
+.TH ITUNESNP 1 "May 2026" "itunesnp 0.0.0" "User Commands"
+.SH NAME
+itunesnp \- print the currently playing Music.app track
+.SH SYNOPSIS
+.B itunesnp
+.SH DESCRIPTION
+.B itunesnp
+queries the macOS Music application (formerly iTunes) via JXA and prints a single line in
+.B "Now Playing: <artist> - <track>"
+format on standard output.
+.PP
+If the application is not running it prints
+.RB \(lq "Now Playing: Nothing, Music is not open." \(rq.
+If Music is running but is paused or stopped, a similarly worded message is printed instead of
+track metadata.
+.SH OPTIONS
+This utility does not accept any command-line options.
+.SH EXAMPLES
+.PP
+Print the current track to standard output:
+.PP
+.RS 4
+.B itunesnp
+.RE
+.PP
+Use with an IRC client (X-Chat Aqua) by adding the following to
+.IR ~/.xchat2/commands.conf :
+.PP
+.RS 4
+.B NAME NP
+.br
+.B CMD exec -o itunesnp
+.RE
+.PP
+Use with Quassel by installing the binary as the
+.B mpris
+script, then adding an alias
+.B np
+expanding to
+.BR "/exec mpris" :
+.PP
+.RS 4
+mkdir -p \(dq$HOME/Library/Application Support/Quassel/scripts\(dq
+.br
+cp \(dq$(yarn global bin)/itunesnp\(dq \\
+.br
+    \(dq$HOME/Library/Application Support/Quassel/scripts/mpris\(dq
+.br
+chmod +x \(dq$HOME/Library/Application Support/Quassel/scripts/mpris\(dq
+.RE
+.SH EXIT STATUS
+.TP
+0
+The "Now Playing" line was printed successfully (Music may or may not be playing).
+.TP
+non-zero
+The JXA runtime or a Music.app interaction failed unexpectedly.
+.SH FILES
+.TP
+.I ~/Library/Application\\ Support/Quassel/scripts/mpris
+Recommended install location for Quassel users on macOS.
+.SH AUTHOR
+Written by the itunesnp contributors.
+.SH COPYRIGHT
+Copyright \(co 2026 itunesnp contributors.
+Licensed under the MIT License.
+.SH SEE ALSO
+.BR osascript (1)
