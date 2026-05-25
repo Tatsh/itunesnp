@@ -108,6 +108,52 @@ jobs:
         if: "steps.check.outputs.ready == 'true'"
         name: 'Publish release'
         run: 'gh release edit "$TAG" --draft=false'
+      - env:
+          GH_TOKEN: '${{ github.token }}'
+          REPO: '${{ github.repository }}'
+          RUN_ID: '${{ github.run_id }}'
+        if: 'always()'
+        name: 'Delete prior non-publishing Release runs'
+        run: |
+          delete_run() {
+            local id="$1" reason="$2"
+            echo "Deleting prior Release run ${id} (${reason})."
+            gh run delete --repo "$REPO" "$id" || true
+          }
+          published_step_skipped() {
+            local id="$1"
+            local step_conclusion
+            step_conclusion=$(gh api "repos/${REPO}/actions/runs/${id}/jobs" \
+              --jq '[.jobs[].steps[] | select(.name == "Publish release")][0].conclusion' 2>/dev/null || echo '')
+            [[ "$step_conclusion" == 'skipped' ]]
+          }
+          gh run list --repo "$REPO" --workflow 'Release' \
+            --json databaseId,status,conclusion --limit 100 \
+            | jq -r --arg self "$RUN_ID" \
+                '.[] | select((.databaseId|tostring) != $self) | select(.status == "completed") | [.databaseId, .conclusion] | @tsv' \
+            | while IFS=$'\t' read -r id conclusion; do
+                [[ -z "$id" ]] && continue
+                case "$conclusion" in
+                  skipped|cancelled|neutral)
+                    delete_run "$id" "$conclusion"
+                    ;;
+                  success)
+                    if published_step_skipped "$id"; then
+                      delete_run "$id" 'success without publish'
+                    fi
+                    ;;
+                esac
+              done
+      - env:
+          GH_TOKEN: '${{ github.token }}'
+          REPO: '${{ github.repository }}'
+          RUN_ID: '${{ github.run_id }}'
+        if: "steps.guard.outputs.proceed != 'true' || steps.check.outputs.ready != 'true'"
+        name: 'Cancel this run so it can be cleaned up'
+        run: |
+          echo 'This run did not publish; cancelling so a later run can remove it.'
+          gh run cancel --repo "$REPO" "$RUN_ID" || true
+          sleep 30
 name: 'Release'
 'on':
   workflow_run:

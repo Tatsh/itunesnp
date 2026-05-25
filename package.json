@@ -1,4 +1,9 @@
 {
+  "_wiswa": {
+    "commandLine": "wiswa",
+    "lastRun": "2026-05-25T05:04:03Z",
+    "version": "566ff22"
+  },
   "bin": "./dist/index.js",
   "contributors": ["Andrew Udvare <audvare@gmail.com>"],
   "cspell": {
@@ -35,16 +40,16 @@
     ],
     "useGitignore": true
   },
-  "description": "Print the currently playing iTunes/Music track in 'Now Playing' format.",
+  "description": "Print the currently playing Music.app track in 'Now Playing' format.",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@prettier/plugin-xml": "^3.4.2",
-    "@types/node": "^25.6.0",
-    "@vitest/coverage-v8": "^4.1.5",
+    "@types/node": "^25.8.0",
+    "@vitest/coverage-v8": "^4.1.6",
     "cspell": "^10.0.0",
-    "eslint": "^10.2.1",
-    "globals": "^17.5.0",
-    "jxa-types": "^0.0.12",
+    "eslint": "^10.4.0",
+    "globals": "^17.6.0",
+    "jxa-types": "^0.0.11",
     "markdownlint-cli2": "^0.22.1",
     "prettier": "^3.8.3",
     "prettier-plugin-ini": "^1.3.0",
@@ -54,13 +59,13 @@
     "ts-node": "^10.9.2",
     "typedoc": "^0.28.19",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.59.1",
-    "vitest": "^4.1.5",
+    "typescript-eslint": "^8.59.3",
+    "vitest": "^4.1.6",
     "webpack": "^5.106.2",
     "webpack-cli": "^7.0.2",
     "webpack-shebang-plugin": "^1.1.8"
   },
-  "files": ["LICENSE.txt", "README.md", "dist/index.js", "man/itunesnp.1"],
+  "files": ["LICENSE.txt", "README.md", "man/itunesnp.1", "dist/index.js"],
   "homepage": "https://tatsh.github.io/itunesnp/",
   "keywords": [
     "applescript",
@@ -120,7 +125,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:Tatsh/itunesnp.git"
+    "url": "git+https://github.com/Tatsh/itunesnp.git"
   },
   "scripts": {
     "check-formatting": "prettier --check . && markdownlint-cli2 --config package.json --configPointer /markdownlint-cli2",

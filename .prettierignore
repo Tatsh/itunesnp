@@ -1,4 +1,7 @@
 *.1
+*.3
+*.7
+*.desktop
 *.j2
 *.jsonnet
 *.kate-swp
@@ -6,7 +9,6 @@
 *.lock
 *.log
 *.min.js
-*.scpt
 *~
 .*.swp
 .*_cache/
