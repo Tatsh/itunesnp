@@ -6,7 +6,8 @@ local utils = import 'utils.libjsonnet';
   keep_dist: true,
   want_man: true,
   project_name: 'itunesnp',
-  version: '0.1.0',
+  version: '0.1.1',
+  security_policy_supported_versions: { '0.1.x': ':white_check_mark:' },
   description: "Print the currently playing Music.app track in 'Now Playing' format.",
   keywords: ['applescript', 'irc', 'itunes', 'jxa', 'macos', 'music', 'now-playing', 'typescript'],
   // TypeScript only

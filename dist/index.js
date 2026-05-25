@@ -12,7 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const main_1 = __importDefault(__webpack_require__(1));
-console.log((0, main_1.default)());
+const message = (0, main_1.default)();
+if (message) {
+    $.printf('%s', message);
+}
 $.exit(0);
 
 
@@ -22,20 +25,18 @@ $.exit(0);
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports["default"] = main;
-/** Build the "Now Playing" message for the current Music.app state. Returns a string suitable
- * for printing to stdout or pasting into an IRC client (e.g. `/np`). */
-function main() {
+exports["default"] = getNowPlaying;
+/** Build a `Now Playing: <artist> - <track>` line for the current Music.app state. Returns
+ *  `undefined` when Music is not running, paused, or stopped. Fast-forwarding and rewinding are
+ *  reported as playing. */
+function getNowPlaying() {
     const music = Application('Music');
     if (!music.running()) {
-        return 'Now Playing: Nothing, Music is not open.';
+        return undefined;
     }
     const state = music.playerState();
-    if (state === 'paused') {
-        return 'Now Playing: Nothing, Music is currently paused.';
-    }
-    if (state === 'stopped') {
-        return 'Now Playing: Nothing, Music is currently stopped.';
+    if (state === 'paused' || state === 'stopped') {
+        return undefined;
     }
     const track = music.currentTrack();
     return `Now Playing: ${track.artist()} - ${track.name()}`;
