@@ -9,6 +9,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-05-25
+
 ### Changed
 
 - `itunesnp` now writes its output directly to standard output via `printf`, emitting only the
@@ -35,5 +37,6 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Switched the target from iTunes to Music.app (the macOS Catalina+ replacement). The output
   format is unchanged.
 
-[unreleased]: https://github.com/Tatsh/itunesnp/compare/v0.0.1...HEAD
+[unreleased]: https://github.com/Tatsh/itunesnp/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/Tatsh/itunesnp/compare/v0.0.1...v0.1.0
 [0.0.1]: https://github.com/Tatsh/itunesnp/releases/tag/v0.0.1
