@@ -45,7 +45,7 @@
     "@eslint/js": "^10.0.1",
     "@prettier/plugin-xml": "^3.4.2",
     "@types/node": "^26.0.0",
-    "@vitest/coverage-v8": "^5.0.1",
+    "@vitest/coverage-v8": "^5.0.2",
     "cspell": "^10.0.0",
     "eslint": "^10.4.0",
     "globals": "^17.6.0",
@@ -60,7 +60,8 @@
     "typedoc": "^0.28.19",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.3",
-    "vitest": "^4.1.6",
+    "vite": "^8.3.1",
+    "vitest": "^5.0.2",
     "webpack": "^5.106.2",
     "webpack-cli": "^7.0.2",
     "webpack-shebang-plugin": "^1.1.8"
