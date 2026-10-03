@@ -2,7 +2,7 @@ authors:
   - family-names: 'Udvare'
     given-names: 'Andrew'
 cff-version: '1.2.0'
-date-released: '2026-05-25'
+date-released: '2026-10-03'
 message: 'If you use this software, please cite it as below.'
 title: 'itunesnp'
 version: '0.1.1'

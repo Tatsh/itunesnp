@@ -1,7 +1,5 @@
-Ångström
 applescript
 bsky
-cooldown
 coveragerc
 coverallsapp
 dashcam
@@ -9,6 +7,7 @@ docstrings
 esac
 esbenp
 foxundermoon
+handoff
 itunesnp
 jinja
 jsonnet
@@ -19,9 +18,13 @@ libsonnet
 mktemp
 mpris
 mypy
+noone
+nullglob
+numpydoc
 oneline
 osascript
 preapproved
+pyinstaller
 pylock
 pyproject
 quassel
@@ -30,8 +33,10 @@ ripgreprc
 schemafile
 shellcheck
 shellformat
+shopt
 snapcraft
 softprops
+statusline
 tatsh
 tostring
 udvare
@@ -41,8 +46,10 @@ vars
 vendored
 venv
 vitest
+winget
 wiswa
 wiswa's
-worktree
 xchat
 yarnrc
+zizmor
+Ångström

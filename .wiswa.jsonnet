@@ -14,7 +14,7 @@ local utils = import 'utils.libjsonnet';
   package_json+: {
     bin: './dist/index.js',
     devDependencies+: {
-      'globals': utils.latestNpmPackageVersionCaret('globals'),
+      globals: utils.latestNpmPackageVersionCaret('globals'),
       'jxa-types': utils.latestNpmPackageVersionCaret('jxa-types'),
       'ts-loader': utils.latestNpmPackageVersionCaret('ts-loader'),
       'webpack-cli': utils.latestNpmPackageVersionCaret('webpack-cli'),
@@ -25,11 +25,6 @@ local utils = import 'utils.libjsonnet';
     main: 'dist/index.js',
   },
   eslint+: [{ rules: { '@typescript-eslint/no-unused-expressions': 'off' } }],
-  pre_commit_config+: {
-    ci+: {
-      skip: std.sort(super.skip + ['fix-eslint']),
-    },
-  },
   github+: {
     workflows+: {
       publish_npm_any+: {
