@@ -30,6 +30,7 @@ pyproject
 quassel
 regen
 ripgreprc
+sbclaude
 schemafile
 shellcheck
 shellformat
