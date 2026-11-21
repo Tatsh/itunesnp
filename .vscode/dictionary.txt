@@ -37,6 +37,7 @@ shellformat
 shopt
 snapcraft
 statusline
+stdlib
 tatsh
 tostring
 udvare
