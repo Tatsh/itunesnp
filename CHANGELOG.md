@@ -9,6 +9,13 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-11-20
+
+### Fixed
+
+- Import `stdlib` so `$.printf` and `$.exit` exist when run under `osascript`. 0.1.1 failed with
+  `TypeError: $.exit is not a function`.
+
 ## [0.1.1] - 2026-05-25
 
 ### Fixed
@@ -46,7 +53,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Switched the target from iTunes to Music.app (the macOS Catalina+ replacement). The output
   format is unchanged.
 
-[unreleased]: https://github.com/Tatsh/itunesnp/compare/v0.1.1...HEAD
+[unreleased]: https://github.com/Tatsh/itunesnp/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/Tatsh/itunesnp/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/Tatsh/itunesnp/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/Tatsh/itunesnp/compare/v0.0.1...v0.1.0
 [0.0.1]: https://github.com/Tatsh/itunesnp/releases/tag/v0.0.1
